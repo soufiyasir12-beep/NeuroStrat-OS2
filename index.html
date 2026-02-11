@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neurostrat OS</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tldraw CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/tldraw/tldraw.css" />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              bg: '#09090b', // Zinc 950 (Deep Black)
+              surface: '#18181b', // Zinc 900
+              surface2: '#27272a', // Zinc 800
+              border: '#3f3f46', // Zinc 700
+              text: '#fafafa', // Zinc 50
+              'text-muted': '#a1a1aa', // Zinc 400
+              accent: '#ffffff', // Pure White for high contrast accents
+              'accent-dim': '#52525b', 
+            },
+            fontFamily: {
+              serif: ['"Playfair Display"', 'serif'],
+              sans: ['"Inter"', 'sans-serif'],
+            },
+            boxShadow: {
+              'glow': '0 0 20px rgba(255, 255, 255, 0.05)',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #09090b;
+        color: #fafafa;
+        font-family: "Inter", sans-serif;
+        overflow: hidden;
+      }
+      /* Custom Scrollbar for Dark Mode */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #3f3f46;
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #71717a;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.3.1?target=es2022",
+    "react/": "https://esm.sh/react@18.3.1/?target=es2022",
+    "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime?target=es2022",
+    "react-dom": "https://esm.sh/react-dom@18.3.1?deps=react@18.3.1&target=es2022",
+    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client?deps=react@18.3.1&target=es2022",
+    "lucide-react": "https://esm.sh/lucide-react@0.344.0?deps=react@18.3.1&target=es2022",
+    "framer-motion": "https://esm.sh/framer-motion@11.0.8?deps=react@18.3.1,react-dom@18.3.1&target=es2022",
+    "dexie": "https://esm.sh/dexie@4.0.1?target=es2022",
+    "dexie-react-hooks": "https://esm.sh/dexie-react-hooks@1.1.7?deps=dexie@4.0.1,react@18.3.1&target=es2022",
+    "tldraw": "https://esm.sh/tldraw@2.1.0?deps=react@18.3.1,react-dom@18.3.1&target=es2022",
+    "tldraw/": "https://esm.sh/tldraw@2.1.0/?deps=react@18.3.1,react-dom@18.3.1&target=es2022",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.40.0",
+    "next/": "https://esm.sh/next@^16.1.6/"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
