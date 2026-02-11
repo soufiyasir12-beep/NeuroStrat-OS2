@@ -1,21 +1,29 @@
 import { NextResponse } from 'next/server';
 
-const RESEND_API_KEY = "re_JHMUm8yw_AFxUDymyYzkXZY6mdakeQXpx";
-
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { to, subject, html } = body;
+    const { to, from, subject, html } = body;
+
+    // Retrieve the API Key from environment variables
+    const apiKey = process.env.RESEND_API_KEY;
+
+    if (!apiKey) {
+      return NextResponse.json(
+        { message: 'Server configuration error: Missing Resend API Key' },
+        { status: 500 }
+      );
+    }
 
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${RESEND_API_KEY}`,
+        'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'Neurostrat OS <onboarding@resend.dev>',
-        to: to, // Expecting an array of strings or a single string
+        from: from, // Use the dynamic sender selected in frontend
+        to: to, 
         subject: subject,
         html: html,
       }),

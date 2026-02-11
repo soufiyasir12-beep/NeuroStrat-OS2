@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../../db';
-import { Send, PenLine, Inbox, FileText, Loader2, CheckCircle2, Mail, X, RefreshCcw, User } from 'lucide-react';
+import { Send, PenLine, Inbox, FileText, Loader2, CheckCircle2, Mail, X, RefreshCcw, User, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { sendEmailViaApi, fetchIncomingEmails } from '../../services/emailService';
 import { Email } from '../../types';
@@ -129,7 +129,7 @@ const EmailCard: React.FC<{ email: Email, active?: boolean, onClick: () => void 
     >
         <div className="flex justify-between items-start mb-1">
             <span className={`font-medium text-sm truncate ${active ? 'text-white' : 'text-text-muted group-hover:text-white'}`}>
-                {email.status === 'received' ? email.from : email.to}
+                {email.status === 'received' ? email.from : `To: ${email.to}`}
             </span>
             <span className="text-[9px] text-text-muted opacity-60 font-mono">
                 {new Date(email.createdAt).toLocaleDateString()}
@@ -163,7 +163,7 @@ const ReadView: React.FC<{ email: Email, onClose: () => void }> = ({ email, onCl
                         <User size={14} />
                     </div>
                     <div>
-                        <p className="font-medium text-white">{email.status === 'received' ? email.from : `To: ${email.to}`}</p>
+                        <p className="font-medium text-white">{email.from}</p>
                         <p className="text-[10px] font-mono opacity-50 uppercase tracking-widest">
                             {new Date(email.createdAt).toLocaleString()}
                         </p>
@@ -180,7 +180,17 @@ const ReadView: React.FC<{ email: Email, onClose: () => void }> = ({ email, onCl
     </motion.div>
 );
 
+const SENDER_OPTIONS = [
+    "Onboarding@mail.neurostrat.app",
+    "Yasir@mail.neurostrat.app",
+    "CEO@mail.neurostrat.app",
+    "Systems@mail.neurostrat.app",
+    "Demos@mail.neurostrat.app",
+    "os@mail.neurostrat.app"
+];
+
 const ComposeView: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+    const [from, setFrom] = useState(SENDER_OPTIONS[0]);
     const [to, setTo] = useState('');
     const [subject, setSubject] = useState('');
     const [body, setBody] = useState('');
@@ -194,6 +204,7 @@ const ComposeView: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         
         try {
             const emailData: Email = {
+                from: from,
                 to,
                 subject,
                 body,
@@ -216,6 +227,7 @@ const ComposeView: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             setErrorMessage(e.message || "Network Error");
             // Save as draft if sending failed
             await db.emails.add({
+                from: from,
                 to,
                 subject,
                 body,
@@ -241,6 +253,24 @@ const ComposeView: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </div>
 
             <div className="space-y-6 flex-1 flex flex-col">
+                <div className="group relative">
+                    <label className="text-[10px] uppercase font-bold text-text-muted mb-1 block">From Identity</label>
+                    <div className="relative">
+                        <select 
+                            value={from}
+                            onChange={(e) => setFrom(e.target.value)}
+                            className="w-full bg-transparent border-b border-white/10 py-2 text-white focus:outline-none focus:border-white/50 transition-colors appearance-none font-mono text-sm cursor-pointer hover:text-white/80"
+                        >
+                            {SENDER_OPTIONS.map(opt => (
+                                <option key={opt} value={opt} className="bg-surface text-white">
+                                    {opt}
+                                </option>
+                            ))}
+                        </select>
+                        <ChevronDown className="absolute right-0 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" size={14} />
+                    </div>
+                </div>
+
                 <div className="group">
                     <label className="text-[10px] uppercase font-bold text-text-muted mb-1 block">Recipient</label>
                     <input 

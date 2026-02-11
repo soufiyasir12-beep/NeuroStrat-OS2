@@ -7,13 +7,14 @@ import { GoogleGenAI, Type } from "@google/genai";
  */
 export const sendEmailViaApi = async (email: Email): Promise<{ success: boolean; id?: string }> => {
   // We strictly fetch our own backend endpoint. 
-  // No fallback, no simulation. If this fails, the UI will reflect the real error.
+  // We send the 'from' address selected by the user.
   const response = await fetch('/api/send', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
+      from: email.from, // Sending the selected identity
       to: [email.to], // Resend expects an array for 'to'
       subject: email.subject,
       html: `<div style="font-family: sans-serif; color: #111; line-height: 1.6;">
