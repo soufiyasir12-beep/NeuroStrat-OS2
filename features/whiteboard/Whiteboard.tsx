@@ -17,9 +17,6 @@ export const Whiteboard: React.FC = () => {
                     persistenceKey="neurostrat-whiteboard"
                     hideUi={false}
                     className="tldraw-neurostrat-theme"
-                    options={{
-                        isDarkMode: true
-                    }}
                 />
             </div>
             
